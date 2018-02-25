@@ -267,7 +267,7 @@ test.y &lt;- select(test.set, Salary)</code></pre>
 <pre class="r"><code>to.be.scaled &lt;- c(1:5,7:77,82)
 train.x[,to.be.scaled] &lt;- scale(train.x[,to.be.scaled])
 test.x[,to.be.scaled] &lt;- scale(test.x[,to.be.scaled])</code></pre>
-<p>Recombining datasets for use in random forest and boosted tree training algorithms</p>
+<p>Recombining datasets for use in random forest and boosted gradient training algorithms</p>
 <pre class="r"><code>tr &lt;- cbind(train.x, train.y)
 te &lt;- cbind(test.x, test.y)</code></pre>
 <p>Creating random forest model</p>
@@ -294,7 +294,7 @@ rf &lt;- train(Salary ~.,
 <pre class="r"><code>rf.predict &lt;- predict(rf, newdata = te)
 RMSE(rf.predict, te$Salary)  </code></pre>
 <pre><code>## [1] 1651262</code></pre>
-<p>Creating boosted tree model</p>
+<p>Creating xgbTree model</p>
 <pre class="r"><code>tg &lt;- expand.grid(nrounds = 500, 
                   max_depth = 150,
                   eta = c(0.005, 0.010, 0.015),
@@ -309,7 +309,7 @@ xt &lt;- train(Salary ~.,
             tuneGrid = tg,
             preProcess = NULL,
             trControl = trainControl(method = &quot;cv&quot;))</code></pre>
-<p>Computing root mean square error for boosted tree model</p>
+<p>Computing root mean square error for xgbTree model</p>
 <pre class="r"><code>xt.predict &lt;- predict(xt, te)
 RMSE(xt.predict, te$Salary)</code></pre>
 <pre><code>## [1] 1603237</code></pre>
